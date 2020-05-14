@@ -1,6 +1,8 @@
 import numpy as np
 from matplotlib import pyplot as plt
 
+
+#call the plot function after importing with parameters points (ex: [(1,2),(5,6),(7,8)])
 def solve_polynomial(A, b):
     multiplication = np.dot(np.linalg.inv(A), b)
     l = multiplication.reshape(1, multiplication.shape[0])

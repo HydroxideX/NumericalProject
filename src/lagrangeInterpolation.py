@@ -1,6 +1,7 @@
 import time
 
 
+#call the interpolate function after importing with parameters points (ex: [(1,2),(5,6),(7,8)]) and value (ex: 2)
 def calculate_value(points, value):
     answer = 0
     m = len(points)

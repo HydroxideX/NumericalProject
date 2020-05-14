@@ -1,7 +1,10 @@
+#call the interpolate function after importing with parameters points (ex: [(1,2),(5,6),(7,8)]) and value (ex: 2)
+#only send the set of points that are needed in the function as the functions use the whole points array in its calculation
+
 import time
 
 
-#call the interpolate function after importing with parameters points (ex: [(1,2),(5,6),(7,8)]) and value (ex: 2)
+
 def calculate_value(points, value):
     answer = 0
     m = len(points)

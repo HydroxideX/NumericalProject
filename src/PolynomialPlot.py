@@ -1,5 +1,5 @@
-#call the plot function after importing with parameters points (ex: [(1,2),(5,6),(7,8)])
-#only send the set of points that are needed in the function as the functions use the whole points array in its calculation
+# call the plot function after importing with parameters points (ex: [(1,2),(5,6),(7,8)])
+# only send the set of points that are needed in the function as the functions use the whole points array in its calculation
 
 import numpy as np
 from matplotlib import pyplot as plt
@@ -14,7 +14,7 @@ def solve_polynomial(A, b):
 def generate_array(points):
     m = len(points)
     A = np.ones((m, m))
-    b = np.zeros((m,1))
+    b = np.zeros((m, 1))
     for i in range(0, m):
         b[i][0] = points[i][1]
         A[i][1] = points[i][0]
@@ -32,7 +32,7 @@ def plot(points):
         x[0][i] = points[i][0]
     coefficients = coefficients.reshape(coefficients.shape[1])
     coefficients = coefficients[::-1]
-    xi = np.linspace(points[0][0], points[len(points)-1][0])
+    xi = np.linspace(points[0][0], points[len(points) - 1][0])
     poly = np.poly1d(coefficients)
     plt.plot(xi, poly(xi))
     plt.show()
@@ -40,4 +40,3 @@ def plot(points):
 
 points = [(1, 0), (4, 1.386), (6, 1.791)]
 plot(points)
-

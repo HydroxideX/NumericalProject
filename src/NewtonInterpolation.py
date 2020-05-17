@@ -17,7 +17,7 @@ def calculate_value(div_diff_table, points, value):
 
 
 def get_polynomial(div_diff_table, points):
-    s = ""
+    s = "y = "
     m = div_diff_table.shape[0]
     for i in range(0, m):
         if div_diff_table[i][i] < 0:

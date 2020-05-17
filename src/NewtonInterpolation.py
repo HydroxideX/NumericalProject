@@ -27,7 +27,12 @@ def get_polynomial(div_diff_table, points):
         else:
             s += str(div_diff_table[i][i])
         for j in range(0, i):
-            s += ("(x - " + str(points[j][0]) + ")")
+            if points[j][0] < 0:
+                s += ("(x + " + str(-1 * points[j][0]) + ")")
+            elif points[j][0] > 0:
+                s += ("(x - " + str(points[j][0]) + ")")
+            else:
+                s += "(x)"
         if i != m - 1:
             s += " + "
     return s

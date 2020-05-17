@@ -36,7 +36,3 @@ def plot(points):
     poly = np.poly1d(coefficients)
     plt.plot(xi, poly(xi))
     plt.show()
-
-
-points = [(1, 0), (4, 1.386), (6, 1.791)]
-plot(points)

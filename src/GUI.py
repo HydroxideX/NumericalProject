@@ -1,4 +1,6 @@
+import warnings
 from tkinter import *
+from tkinter.filedialog import askopenfile
 
 import NewtonInterpolation
 import lagrangeInterpolation
@@ -10,48 +12,91 @@ root.geometry('300x340')
 
 var = IntVar()
 
-L4 = Label(root, text='Result')
-L5 = Label(root, text='Time')
-L6 = Label(root, text='Polynomial')
 L1 = Label(root, text='Points')
 T1 = Entry(root)
 L2 = Label(root, text='Value')
 T2 = Entry(root)
 L3 = Label(root, text='Order')
 T3 = Entry(root)
-order = T3.get()
 R1 = Radiobutton(root, text="Newton", variable=var, value=0)
 R2 = Radiobutton(root, text="Lagrange", variable=var, value=1)
+L4 = Label(root, text='Result')
+L5 = Label(root, text='Time')
+L6 = Label(root, text='Polynomial')
+
+
+def handle_input(points, degree, value):
+    x = len(points)
+    result = []
+    if x > degree > 0:
+        left = 0
+        right = x - 1
+        while left < right:
+            mid = int((left + right) / 2)
+            if points[mid][0] > value > points[mid - 1][0]:
+                y = mid - degree / 2
+                z = y + degree + 1
+                if y < 0:
+                    y = 0
+                    z = y + degree + 1
+                if z > x:
+                    y = z - degree - 1
+                for i in range(int(y), int(z), 1):
+                    result.append(points[i])
+                break
+            elif value < points[mid][0]:
+                right = mid
+            else:
+                left = mid
+    else:
+        result = points
+    return result
+
+
+def extract_input():
+    values = T1.get()
+    values = values.split(' ')
+    points = []
+    for i in range(0, len(values), 2):
+        points.append((int(values[i]), int(values[i + 1])))
+    points = handle_input(points, int(T3.get()), int(T2.get()))
+    return points
 
 
 def solve():
-    x = int(T2.get())
-    values = T1.get()
-    values = values.split(' ')
-    points = []
-    for i in range(0, len(values), 2):
-        points.append((int(values[i]), int(values[i + 1])))
-    if var.get() == 0:
-        answer = NewtonInterpolation.interpolate(points, x)
-        L4.configure(text=answer[0])
-        L5.configure(text=answer[2])
-        L6.configure(text=answer[1])
-    else:
-        answer = lagrangeInterpolation.interpolate(points, x)
-        L4.configure(text=answer[0])
-        L5.configure(text=answer[1])
-        L6.configure(text="Polynomial")
+    try:
+        x = int(T2.get())
+        if var.get() == 0:
+            answer = NewtonInterpolation.interpolate(extract_input(), x)
+            L4.configure(text=answer[0])
+            L5.configure(text=answer[2])
+            L6.configure(text=answer[1])
+        else:
+            answer = lagrangeInterpolation.interpolate(extract_input(), x)
+            L4.configure(text=answer[0])
+            L5.configure(text=answer[1])
+            L6.configure(text="Polynomial")
+    except:
+        warnings.warn("Error")
+
 
 def plot():
-    values = T1.get()
-    values = values.split(' ')
-    points = []
-    for i in range(0, len(values), 2):
-        points.append((int(values[i]), int(values[i + 1])))
-    PolynomialPlot.plot(points)
+    try:
+        PolynomialPlot.plot(extract_input())
+    except:
+        warnings.warn("Error")
 
 
-B1 = Button(root, text='from file', width=10)
+def open_file():
+    file = askopenfile(mode='r', filetypes=[('Text Files', '*.txt')])
+    if file is not None:
+        content = file.read()
+        content = content.split('/')
+        T1.insert(0, content[0])
+        T2.insert(0, content[1].split('\n')[0])
+
+
+B1 = Button(root, text='from file', width=10, command=lambda: open_file())
 B2 = Button(root, text='Plot', width=10, command=plot)
 B3 = Button(root, text='Solve', width=10, command=solve)
 

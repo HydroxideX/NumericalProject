@@ -24,41 +24,56 @@ L4 = Label(root, text='Result')
 L5 = Label(root, text='Time')
 L6 = Label(root, text='Polynomial')
 
+is_plot = False
+
 
 def handle_input(points, degree, value):
+    if degree == 0:
+        if value > points[len(points) - 1][0]:
+            return [points[len(points) - 1]]
+        elif value < points[0][0]:
+            return [points[0]]
     x = len(points)
     result = []
-    if x > degree > 0:
-        left = 0
+    if x > degree + 1 > 0:
+        left = 1
         right = x - 1
-        while left < right:
+        while left <= right:
             mid = int((left + right) / 2)
-            if points[mid][0] > value > points[mid - 1][0]:
-                y = mid - degree / 2
+            y = mid - degree / 2
+            z = y + degree + 1
+            if y < 0:
+                y = 0
                 z = y + degree + 1
-                if y < 0:
-                    y = 0
-                    z = y + degree + 1
-                if z > x:
-                    y = z - degree - 1
-                for i in range(int(y), int(z), 1):
-                    result.append(points[i])
+            if z > x:
+                y = z - degree - 1
+
+            if points[mid][0] > value > points[mid - 1][0]:
                 break
             elif value < points[mid][0]:
-                right = mid
+                if right != mid:
+                    right = mid
+                else:
+                    break
             else:
-                left = mid
+                left = mid + 1
+                if left == x:
+                    break
     else:
-        result = points
+        return points
+    for i in range(int(y), int(z), 1):
+        result.append(points[i])
     return result
 
 
-def extract_input():
+def extract_input(is_plot):
     values = T1.get()
     values = values.split(' ')
     points = []
     for i in range(0, len(values), 2):
         points.append((int(values[i]), int(values[i + 1])))
+    if is_plot:
+        return points
     points = handle_input(points, int(T3.get()), int(T2.get()))
     return points
 
@@ -66,23 +81,33 @@ def extract_input():
 def solve():
     try:
         x = int(T2.get())
+        points = extract_input(False)
         if var.get() == 0:
-            answer = NewtonInterpolation.interpolate(extract_input(), x)
+            answer = NewtonInterpolation.interpolate(points, x)
             L4.configure(text=answer[0])
             L5.configure(text=answer[2])
             L6.configure(text=answer[1])
+            points.append((x, answer[0]))
+            points.sort()
+            PolynomialPlot.plot(points)
         else:
-            answer = lagrangeInterpolation.interpolate(extract_input(), x)
+            answer = lagrangeInterpolation.interpolate(extract_input(False), x)
             L4.configure(text=answer[0])
             L5.configure(text=answer[1])
             L6.configure(text="Polynomial")
+            points.append((x, answer[0]))
+            points.sort()
+            PolynomialPlot.plot(points)
     except:
         warnings.warn("Error")
 
 
 def plot():
     try:
-        PolynomialPlot.plot(extract_input())
+        PolynomialPlot.plot(extract_input(True))
+        L4.configure(text="Result")
+        L5.configure(text="Time")
+        L6.configure(text="Polynomial")
     except:
         warnings.warn("Error")
 

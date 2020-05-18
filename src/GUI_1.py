@@ -1,6 +1,6 @@
 import tkinter as tk
 
-# hi shbb
+# hi
 
 master = tk.Tk()
 master.title("Root finder ")

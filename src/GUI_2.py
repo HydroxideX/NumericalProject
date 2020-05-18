@@ -118,7 +118,8 @@ def open_file():
         content = file.read()
         content = content.split('/')
         T1.insert(0, content[0])
-        T2.insert(0, content[1].split('\n')[0])
+        T2.insert(0, content[1])
+        T3.insert(0, content[2].split('\n')[0])
 
 
 B1 = Button(root, text='from file', width=10, command=lambda: open_file())

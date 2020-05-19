@@ -1,33 +1,90 @@
+import BisectionMethod
+import FalsePosition
+import FixedPoint
+import NewtonRaphson
+import Secant
 from tkinter import *
 
-get_root_parameters = ['' for _ in range(7)]
-"""
-0==> equation  1==> iterations  2==> epsilon
-3==> xl        4==> xu          5==>xo
-6==> g
-"""
+get_root_equation="x"
+get_root_iterations=50
+get_root_epsilon=0.0001
+get_root_xu=1
+get_root_xl=0
+get_root_xo=0
+get_root_g="x"
+get_root_x1=0
+get_root_x2=1
+
+
+def extract_input():
+    global get_root_equation
+    get_root_equation = eq.get()
+    global get_root_iterations
+    get_root_iterations = iterations.get()
+    global get_root_epsilon
+    get_root_epsilon = epsilon.get()
 
 
 def period_parameter():
     for w in fr_param.winfo_children():
         w.destroy()
     Label(fr_param, text="Parameters:").grid(row=0)
-    Label(fr_param, text="lower bound:").grid(row=1)
-    Label(fr_param, text="upper bound:").grid(row=2)
+    Label(fr_param, text="Xl=").grid(row=1)
+    Label(fr_param, text="Xu=").grid(row=2)
 
-    get_root_parameters[3] = Entry(fr_param).grid(row=1, column=1)
-    get_root_parameters[4] = Entry(fr_param).grid(row=2, column=1)
+    xl = Entry(fr_param).grid(row=1, column=1)
+    xu = Entry(fr_param).grid(row=2, column=1)
+    global get_root_xl
+    get_root_xl = xl.get()
+    global get_root_xu
+    get_root_xu = xu.get()
 
 
 def xo_parameter():
     for w in fr_param.winfo_children():
         w.destroy()
-    Label(fr_param, text="Xo:").grid(row=1)
-    get_root_parameters[5] = Entry(fr_param).grid(row=1, column=1)
+    Label(fr_param, text="Parameters:").grid(row=0)
+    Label(fr_param, text="Xo=").grid(row=1)
+    xo = Entry(fr_param).grid(row=1, column=1)
+    global get_root_xo
+    get_root_xo = xo.get()
 
 
-def secant_parameters():
-    pass
+def x1_x2_parameter():
+    for w in fr_param.winfo_children():
+        w.destroy()
+    Label(fr_param, text="Parameters:").grid(row=0)
+    Label(fr_param, text="X1=").grid(row=1)
+    Label(fr_param, text="X2=").grid(row=2)
+
+    x1 = Entry(fr_param).grid(row=1, column=1)
+    x2 = Entry(fr_param).grid(row=2, column=1)
+    global get_root_x1
+    get_root_x1 = x1.get()
+    global get_root_x2
+    get_root_x2 = x2.get()
+
+
+def print_parameters(value):
+    if value == "1" or value == "2":
+        period_parameter()
+    elif value == "3" or value == "4":
+        xo_parameter()
+    elif value == "5":
+        x1_x2_parameter()
+
+
+def get_root(technique):
+    if technique == "1":
+        print(BisectionMethod.bisection(get_root_xl, get_root_xu, get_root_equation, get_root_epsilon, get_root_iterations))
+    elif technique == "2":
+        print(FalsePosition.false_position(get_root_xl, get_root_xu, get_root_equation, get_root_epsilon, get_root_iterations))
+    elif technique == "3":
+        print(FixedPoint.fixed_point(get_root_xo, get_root_epsilon, get_root_iterations, get_root_g))
+    elif technique == "4":
+        print(NewtonRaphson.newton_raphson(get_root_xo, get_root_epsilon, get_root_iterations, get_root_equation))
+    elif technique == "5":
+        print(Secant.secant(get_root_x1, get_root_x2, get_root_iterations, get_root_epsilon, get_root_equation))
 
 
 master = Tk()
@@ -39,50 +96,28 @@ fr_top.grid(row=0)
 Label(fr_top, text="Equation:").grid(row=0)
 eq = Entry(fr_top, borderwidth=3, border=5).grid(row=0, column=1, padx=10, pady=10)
 
-Label(fr_top, text="Technique:").grid(row=1)
+Label(fr_top, text="Max number of Iterations:").grid(row=1)
+Label(fr_top, text="Epsilon:").grid(row=2)
+
+iterations = Entry(fr_top, borderwidth=3, border=5).grid(row=1, column=1, padx=10, pady=10)
+epsilon = Entry(fr_top, borderwidth=3, border=5).grid(row=2, column=1, padx=10, pady=10)
+
+Label(fr_top, text="Technique:").grid(row=3)
 techniques = {"1": "Bisection",
               "2": "False-position",
               "3": "Fixed point",
               "4": "Newton-Raphson",
               "5": "secant"}
-used_technique = StringVar(fr_top, "1")
+used_technique = StringVar(master, "1")
+
 for (val, text) in techniques.items():
-    Radiobutton(fr_top, text=text, variable=used_technique, value=val).grid()
+    Radiobutton(fr_top, text=text, variable=used_technique, value=val, command=lambda: print_parameters(used_technique.get())).grid()
 
 #  parameter frame
 fr_param = Frame(master, bd=1, width=500)
 fr_param.grid(row=1)
-Label(fr_param, text="Parameters:").grid(row=0)
-
-if used_technique == "1" or used_technique == "2":
-    period_parameter()
-elif used_technique == "3" or used_technique == "4":
-    xo_parameter()
-elif used_technique == "5":
-    secant_parameters()
-
-#  bottom frame
-fr_bottom = Frame(master, bd=1, width=500)
-fr_bottom.grid(row=2)
-Label(fr_bottom, text="Max number of Iterations:").grid(row=0)
-Label(fr_bottom, text="Epsilon:").grid(row=1)
-
-iterations = Entry(fr_bottom).grid(row=0, column=1)
-epsilon = Entry(fr_bottom).grid(row=1, column=1)
 
 
-def get_root():
-    Label(master, text="now you will see secant power").grid()
-    used_technique.set("3")
-
-
-submit = Button(master, text="Get Root", command=get_root).grid()
-
-
-def extract_input():
-    get_root_parameters[0] = eq.get()
-    get_root_parameters[1] = iterations.get()
-    get_root_parameters[2] = epsilon.get()
-
+submit=Button(master, text="Get Root", command=lambda: get_root(used_technique.get())).grid()
 
 master.mainloop()

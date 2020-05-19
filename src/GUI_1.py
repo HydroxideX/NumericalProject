@@ -1,6 +1,6 @@
 from tkinter import *
 
-get_root_parameters=['' for _ in range(7)]
+get_root_parameters = ['' for _ in range(7)]
 """
 0==> equation  1==> iterations  2==> epsilon
 3==> xl        4==> xu          5==>xo
@@ -71,17 +71,18 @@ iterations = Entry(fr_bottom).grid(row=0, column=1)
 epsilon = Entry(fr_bottom).grid(row=1, column=1)
 
 
-
 def get_root():
     Label(master, text="now you will see secant power").grid()
     used_technique.set("3")
 
 
-submit=Button(master, text="Get Root", command=get_root).grid()
+submit = Button(master, text="Get Root", command=get_root).grid()
 
 
-get_root_parameters[0] = eq.get()
-get_root_parameters[1] = iterations.get()
-get_root_parameters[2] = epsilon.get()
+def extract_input():
+    get_root_parameters[0] = eq.get()
+    get_root_parameters[1] = iterations.get()
+    get_root_parameters[2] = epsilon.get()
+
 
 master.mainloop()

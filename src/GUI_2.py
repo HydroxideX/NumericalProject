@@ -84,20 +84,14 @@ def solve():
         points = extract_input(False)
         if var.get() == 0:
             answer = NewtonInterpolation.interpolate(points, x)
-            L4.configure(text=answer[0])
-            L5.configure(text=answer[2])
-            L6.configure(text=answer[1])
-            points.append((x, answer[0]))
-            points.sort()
-            PolynomialPlot.plot(points)
         else:
             answer = lagrangeInterpolation.interpolate(extract_input(False), x)
-            L4.configure(text=answer[0])
-            L5.configure(text=answer[1])
-            L6.configure(text="Polynomial")
-            points.append((x, answer[0]))
-            points.sort()
-            PolynomialPlot.plot(points)
+        L4.configure(text=answer[0])
+        L5.configure(text=answer[2])
+        L6.configure(text=answer[1])
+        points.append((x, answer[0]))
+        points.sort()
+        PolynomialPlot.plot(points)
     except:
         warnings.warn("Error")
 

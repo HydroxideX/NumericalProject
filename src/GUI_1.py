@@ -1,6 +1,6 @@
 import tkinter as tk
 
-get_root_parameters=[0, 0, 0, 0, 0, 0, 0]
+get_root_parameters=['' for _ in range(7)]
 """
 0==> equation  1==> iterations  2==> epsilon
 3==> xl        4==> xu          5==>xo
@@ -37,7 +37,7 @@ master.title("Root finder ")
 fr_top = tk.Frame(master, width=500)
 fr_top.grid(row=0)
 tk.Label(fr_top, text="Equation:").grid(row=0)
-eq = tk.Entry(fr_top, borderwidth=3,border=5).grid(row=0, column=1, padx=10, pady=10)
+eq = tk.Entry(fr_top, borderwidth=3, border=5).grid(row=0, column=1, padx=10, pady=10)
 
 tk.Label(fr_top, text="Technique:").grid(row=1)
 techniques = {"1": "Bisection",
@@ -81,7 +81,7 @@ submit=tk.Button(master, text="Get Root", command=get_root).grid()
 
 
 get_root_parameters[0] = str(eq.get())
-get_root_parameters[1] = int(iterations.get())
-get_root_parameters[2] = float(epsilon.get())
+get_root_parameters[1] = str(iterations.get())
+get_root_parameters[2] = str(epsilon.get())
 
 master.mainloop()

@@ -4,8 +4,30 @@
 import time
 
 
+def get_polynomial(points):
+    s = "y = "
+    m = len(points)
+    for i in range(m):
+        for j in range(m):
+            if j == i:
+                continue
+            if points[j][0] < 0:
+                s += ("((x + " + str(-1 * points[j][0]) + ") / (" + str(points[i][0] - points) + ")) ")
+            elif points[j][0] > 0:
+                s += ("((x - " + str(points[j][0]) + ") / (" + str(points[i][0]-points[j][0]) + "))")
+            else:
+                s += "(x/ (" + points[i][0] + "))"
+        if i != m-1:
+            s += " * (" + (str(points[i][0])) + ")" + " + "
+        else :
+            s += " * (" + (str(points[i][0])) + ")"
+    return s
+
+
 def calculate_value(points, value):
+    arr = []
     answer = 0
+    s = get_polynomial(points)
     m = len(points)
     for i in range(m):
         temp = 1
@@ -14,7 +36,8 @@ def calculate_value(points, value):
                 continue
             temp *= ((value - points[j][0]) / (points[i][0] - points[j][0]))
         answer += temp * points[i][1]
-    return answer
+    arr = [answer, s]
+    return arr
 
 
 def points_different(points):
@@ -32,3 +55,4 @@ def interpolate(points, value):
     exec_time = ((time.time()) - current_time) * 1000
     answer.append(exec_time)
     return answer
+

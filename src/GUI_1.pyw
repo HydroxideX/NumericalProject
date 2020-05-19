@@ -40,6 +40,7 @@ def period_parameter():
     get_root_xu = xu.get()
 
 
+
 def xo_parameter():
     for w in fr_param.winfo_children():
         w.destroy()

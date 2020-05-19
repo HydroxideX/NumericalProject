@@ -32,8 +32,8 @@ def period_parameter():
     Label(fr_param, text="Xl=").grid(row=1)
     Label(fr_param, text="Xu=").grid(row=2)
 
-    xl = Entry(fr_param).grid(row=1, column=1)
-    xu = Entry(fr_param).grid(row=2, column=1)
+    xl = Entry(fr_param, borderwidth=3, border=5).grid(row=1, column=1, padx=10, pady=10)
+    xu = Entry(fr_param, borderwidth=3, border=5).grid(row=2, column=1, padx=10, pady=10)
     global get_root_xl
     get_root_xl = xl.get()
     global get_root_xu
@@ -45,7 +45,7 @@ def xo_parameter():
         w.destroy()
     Label(fr_param, text="Parameters:").grid(row=0)
     Label(fr_param, text="Xo=").grid(row=1)
-    xo = Entry(fr_param).grid(row=1, column=1)
+    xo = Entry(fr_param, borderwidth=3, border=5).grid(row=1, column=1, padx=10, pady=10)
     global get_root_xo
     get_root_xo = xo.get()
 
@@ -57,8 +57,8 @@ def x1_x2_parameter():
     Label(fr_param, text="X1=").grid(row=1)
     Label(fr_param, text="X2=").grid(row=2)
 
-    x1 = Entry(fr_param).grid(row=1, column=1)
-    x2 = Entry(fr_param).grid(row=2, column=1)
+    x1 = Entry(fr_param, borderwidth=3, border=5).grid(row=1, column=1, padx=10, pady=10)
+    x2 = Entry(fr_param, borderwidth=3, border=5).grid(row=2, column=1, padx=10, pady=10)
     global get_root_x1
     get_root_x1 = x1.get()
     global get_root_x2
@@ -111,7 +111,7 @@ techniques = {"1": "Bisection",
 used_technique = StringVar(master, "1")
 
 for (val, text) in techniques.items():
-    Radiobutton(fr_top, text=text, variable=used_technique, value=val, command=lambda: print_parameters(used_technique.get())).grid()
+    Radiobutton(fr_top, text=text, variable=used_technique, value=val, command=lambda: print_parameters(used_technique.get())).grid(column=1,sticky=W)
 
 #  parameter frame
 fr_param = Frame(master, bd=1, width=500)

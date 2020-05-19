@@ -9,3 +9,6 @@ def function_evaluator(func, x):
     y = eval(expr)
 
     return y
+
+
+print(function_evaluator('sin(x)', 1))

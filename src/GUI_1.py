@@ -8,6 +8,8 @@ get_root_parameters=['' for _ in range(7)]
 """
 
 
+
+
 def period_parameter():
     for w in fr_param.winfo_children():
         w.destroy()

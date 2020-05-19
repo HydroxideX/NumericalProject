@@ -74,7 +74,8 @@ def extract_input(is_plot):
         points.append((int(values[i]), int(values[i + 1])))
     if is_plot:
         return points
-    points = handle_input(points, int(T3.get()), int(T2.get()))
+    if T3.get():
+        points = handle_input(points, int(T3.get()), int(T2.get()))
     return points
 
 

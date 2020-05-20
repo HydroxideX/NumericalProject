@@ -10,12 +10,12 @@ def fixed_point(xo, eps, n, g):
     xr = xo
     root = []
     for i in range(1, n):
-        xr_old = xr
         xr = Function.function_evaluator(g, xr_old)
         if i > 1:
-            current_eps = (xr - xr_old) / xr
+            current_eps = abs((xr - xr_old) / xr)
             if current_eps < eps:
                 root.append((i, xr, current_eps))
                 break
         root.append((i, xr, current_eps))
+        xr_old = xr
     return root

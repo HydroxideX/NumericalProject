@@ -8,8 +8,10 @@ from tkinter import *
 
 def extract_input():
     if not(used_technique.get() == "3" or used_technique.get() == "4"):
-        s=int(X2.get())
-
+        s=float(X2.get())
+    else:
+        s=0
+    f = float(X1.get())
     eps =epsilon.get()
     if eps == "":
         eps = None
@@ -22,7 +24,7 @@ def extract_input():
     else:
         iter_num = int(iter_num)
 
-    get_root(used_technique.get(),eq.get(),iter_num,eps,int(X1.get()),s)
+    get_root(used_technique.get(),eq.get(),iter_num,eps,f,s)
 
 
 def get_root(technique,get_root_equation,get_root_iterations,get_root_epsilon,get_root_x1 ,get_root_x2 = 0):

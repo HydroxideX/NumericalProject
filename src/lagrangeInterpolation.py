@@ -12,7 +12,7 @@ def get_polynomial(points):
             if j == i:
                 continue
             if points[j][0] < 0:
-                s += ("((x + " + str(-1 * points[j][0]) + ") / (" + str(points[i][0] - points) + ")) ")
+                s += ("((x + " + str(-1 * points[j][0]) + ") / (" + str(points[i][0] - points[j][0]) + ")) ")
             elif points[j][0] > 0:
                 s += ("((x - " + str(points[j][0]) + ") / (" + str(points[i][0] - points[j][0]) + "))")
             else:

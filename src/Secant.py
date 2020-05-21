@@ -11,8 +11,9 @@ def secant(x1, x2, n, eps, func):
     root = []
     xr = x2
     for i in range(1, n):
+        xr_old = xr
         xr = xr_old - ((Function.function_evaluator(func, xr_old) * (x1 - xr)) / (
-                    Function.function_evaluator(func, x1) - Function.function_evaluator(func, xr_old)))
+                Function.function_evaluator(func, x1) - Function.function_evaluator(func, xr_old)))
         x1 = xr_old
         if i > 1:
             current_eps = abs((xr - xr_old) / xr)
@@ -20,5 +21,4 @@ def secant(x1, x2, n, eps, func):
                 root.append((i, x1, xr_old, xr, current_eps))
                 break
         root.append((i, x1, xr_old, xr, current_eps))
-        xr_old = xr
     return root

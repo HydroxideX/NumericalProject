@@ -10,8 +10,9 @@ def newton_raphson(xo, eps, n, func):
     current_eps = 65868541546874571685758714357356413541255000000135405
     root = []
     xr = xo
+    dx = Derivative.get_derivative(func)
     for i in range(1, n):
-        dx = Derivative.get_derivative(func)
+        xr_old = xr
         dx_val = Function.function_evaluator(str(dx), xr_old)
         xr = xr_old - (Function.function_evaluator(func, xr_old) / dx_val)
         if i > 1:
@@ -20,5 +21,4 @@ def newton_raphson(xo, eps, n, func):
                 root.append((i, xr, current_eps))
                 break
         root.append((i, xr, current_eps))
-        xr_old = xr
     return root

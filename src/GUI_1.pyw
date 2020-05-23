@@ -3,6 +3,7 @@ import FalsePosition
 import FixedPoint
 import NewtonRaphson
 import Secant
+import Plot
 from tkinter import *
 
 
@@ -10,7 +11,10 @@ def extract_input():
     if not(used_technique.get() == "3" or used_technique.get() == "4"):
         s=float(X2.get())
     else:
-        s=0
+        if used_technique.get() == "3":
+            s = str(X2.get())
+        else:
+            s=0
     f = float(X1.get())
     eps =epsilon.get()
     if eps == "":
@@ -24,7 +28,7 @@ def extract_input():
     else:
         iter_num = int(iter_num)
 
-    get_root(used_technique.get(),eq.get(),iter_num,eps,f,s)
+    get_root(used_technique.get(), eq.get(), iter_num, eps, f, s)
 
 
 def get_root(technique,get_root_equation,get_root_iterations,get_root_epsilon,get_root_x1 ,get_root_x2 = 0):
@@ -33,7 +37,7 @@ def get_root(technique,get_root_equation,get_root_iterations,get_root_epsilon,ge
     elif technique == "2":
         print(FalsePosition.false_position(get_root_x1, get_root_x2, get_root_equation, get_root_epsilon, get_root_iterations))
     elif technique == "3":
-        print(FixedPoint.fixed_point(get_root_x1, get_root_epsilon, get_root_iterations, "x"))
+        print(FixedPoint.fixed_point(get_root_x1, get_root_epsilon, get_root_iterations, get_root_x2))
     elif technique == "4":
         print(NewtonRaphson.newton_raphson(get_root_x1, get_root_epsilon, get_root_iterations, get_root_equation))
     elif technique == "5":
@@ -48,10 +52,13 @@ def parameters():
     x1 = StringVar()
     x2 = StringVar()
 
-    if t == "3" or t == "4":
+    if t == "4" or t == "3":
         x1.set("Xo")
+        if t == "3":
+            x2.set("g(x)")
+
     else:
-        if t == "1" or t == "2":
+        if t == "1" or t == "2" :
             x1.set("Xl")
             x2.set("Xu")
         else:
@@ -62,7 +69,7 @@ def parameters():
     l6.grid(row=1)
     first_x = Entry(fr_param,textvariable=X1, borderwidth=3, border=5)
     first_x.grid(row=1, column=1, padx=10, pady=10)
-    if not (t == "3" or t == "4"):
+    if t != "4":
         l7 = Label(fr_param, textvariable=x2)
         second_x = Entry(fr_param, textvariable=X2, borderwidth=3, border=5)
         l7.grid(row=2)

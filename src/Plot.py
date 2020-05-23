@@ -13,6 +13,3 @@ def graph(formula, x_range):
 
     plt.plot(x1, y)
     plt.show()
-
-
-graph('sin(x)', range(-4,20))

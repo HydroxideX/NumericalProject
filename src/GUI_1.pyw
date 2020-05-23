@@ -4,6 +4,7 @@ import FixedPoint
 import NewtonRaphson
 import Secant
 import Plot
+import Derivative
 from tkinter import *
 
 
@@ -34,14 +35,27 @@ def extract_input():
 def get_root(technique,get_root_equation,get_root_iterations,get_root_epsilon,get_root_x1 ,get_root_x2 = 0):
     if technique == "1":
         print(BisectionMethod.bisection(get_root_x1, get_root_x2, get_root_equation, get_root_epsilon, get_root_iterations))
+        Plot.graph(get_root_equation, range(-4, 20))
+        Plot.graph(get_root_x1, range(-4, 20))
+        Plot.graph(get_root_x2, range(-4, 20))
     elif technique == "2":
         print(FalsePosition.false_position(get_root_x1, get_root_x2, get_root_equation, get_root_epsilon, get_root_iterations))
+        Plot.graph(get_root_equation, range(-4, 20))
+        Plot.graph(get_root_x1, range(-4, 20))
+        Plot.graph(get_root_x2, range(-4, 20))
     elif technique == "3":
         print(FixedPoint.fixed_point(get_root_x1, get_root_epsilon, get_root_iterations, get_root_x2))
+        Plot.graph(get_root_equation, range(-4, 20))
+        Plot.graph(get_root_x2, range(-4, 20))
+        Plot.graph('x', range(-4, 20))
     elif technique == "4":
         print(NewtonRaphson.newton_raphson(get_root_x1, get_root_epsilon, get_root_iterations, get_root_equation))
+        Plot.graph(get_root_equation, range(-4, 20))
+        Plot.graph(Derivative.get_derivative(get_root_equation), range(-4, 20))
     elif technique == "5":
         print(Secant.secant(get_root_x1, get_root_x2, get_root_iterations, get_root_epsilon, get_root_equation))
+        Plot.graph(get_root_equation, range(-4, 20))
+        Plot.graph(Derivative.get_derivative(get_root_equation), range(-4, 20))
 
 
 def parameters():

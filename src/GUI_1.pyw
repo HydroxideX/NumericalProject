@@ -33,30 +33,43 @@ def extract_input():
 
 
 def get_root(technique,get_root_equation,get_root_iterations,get_root_epsilon,get_root_x1 ,get_root_x2 = 0):
+    for w in fr_result.winfo_children():
+        w.destroy()
     if technique == "1":
-        print(BisectionMethod.bisection(get_root_x1, get_root_x2, get_root_equation, get_root_epsilon, get_root_iterations))
+        result = BisectionMethod.bisection(get_root_x1, get_root_x2, get_root_equation, get_root_epsilon, get_root_iterations)
+        headers = ['i', 'Xl', 'Xu', 'Xr', 'error']
         Plot.graph(get_root_equation, range(-4, 20))
         Plot.graph(get_root_x1, range(-4, 20))
         Plot.graph(get_root_x2, range(-4, 20))
     elif technique == "2":
-        print(FalsePosition.false_position(get_root_x1, get_root_x2, get_root_equation, get_root_epsilon, get_root_iterations))
+        result = FalsePosition.false_position(get_root_x1, get_root_x2, get_root_equation, get_root_epsilon, get_root_iterations)
+        headers = ['i', 'Xl', 'Xu', 'Xr', 'error']
         Plot.graph(get_root_equation, range(-4, 20))
         Plot.graph(get_root_x1, range(-4, 20))
         Plot.graph(get_root_x2, range(-4, 20))
     elif technique == "3":
-        print(FixedPoint.fixed_point(get_root_x1, get_root_epsilon, get_root_iterations, get_root_x2))
+        result = FixedPoint.fixed_point(get_root_x1, get_root_epsilon, get_root_iterations, get_root_x2)
+        headers = ['i', 'Xr', 'error']
         Plot.graph(get_root_equation, range(-4, 20))
         Plot.graph(get_root_x2, range(-4, 20))
         Plot.graph('x', range(-4, 20))
     elif technique == "4":
-        print(NewtonRaphson.newton_raphson(get_root_x1, get_root_epsilon, get_root_iterations, get_root_equation))
+        result = NewtonRaphson.newton_raphson(get_root_x1, get_root_epsilon, get_root_iterations, get_root_equation)
+        headers = ['i', 'Xr', 'error']
         Plot.graph(get_root_equation, range(-4, 20))
         Plot.graph(Derivative.get_derivative(get_root_equation), range(-4, 20))
     elif technique == "5":
-        print(Secant.secant(get_root_x1, get_root_x2, get_root_iterations, get_root_epsilon, get_root_equation))
+        result = Secant.secant(get_root_x1, get_root_x2, get_root_iterations, get_root_epsilon, get_root_equation)
+        headers= ['i',  'X1', 'Xr_old','Xr', 'error']
         Plot.graph(get_root_equation, range(-4, 20))
         Plot.graph(Derivative.get_derivative(get_root_equation), range(-4, 20))
 
+    # print result on window
+    for i in range(len(headers)):
+        Label(fr_result, text=headers[i]).grid(row=0,column=i)
+    for tub in range(len(result)):
+        for i in range(len(result[tub])):
+            Label(fr_result, text=result[tub][i]).grid(row=tub+1, column=i)
 
 def parameters():
     for w in fr_param.winfo_children():
@@ -121,6 +134,8 @@ for (val, text) in techniques.items():
 fr_param = Frame(master, bd=1, width=500)
 
 submit = Button(master, text="Get Root", command=extract_input)
+# result of get root
+fr_result = Frame(master)
 
 fr_top.grid(row=0)
 l1.grid(row=0)
@@ -130,4 +145,5 @@ l3.grid(row=2)
 l4.grid(row=3)
 fr_param.grid(row=1)
 submit.grid(row=2)
+fr_result.grid(row=3)
 master.mainloop()

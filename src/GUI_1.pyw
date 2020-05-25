@@ -33,8 +33,6 @@ def extract_input():
 
 
 def get_root(technique,get_root_equation,get_root_iterations,get_root_epsilon,get_root_x1 ,get_root_x2 = 0):
-    for w in fr_result.winfo_children():
-        w.destroy()
     if technique == "1":
         result = BisectionMethod.bisection(get_root_x1, get_root_x2, get_root_equation, get_root_epsilon, get_root_iterations)
         headers = ['i', 'Xl', 'Xu', 'Xr', 'error']
@@ -64,12 +62,28 @@ def get_root(technique,get_root_equation,get_root_iterations,get_root_epsilon,ge
         Plot.graph(get_root_equation, range(-4, 20))
         Plot.graph(Derivative.get_derivative(get_root_equation), range(-4, 20))
 
-    # print result on window
+    parent = Tk()
+    parent.title("Results")
+    canvas = Canvas(parent)
+    scroll_y = Scrollbar(parent, orient="vertical", command=canvas.yview)
+
+    fr_result = Frame(canvas)
+
     for i in range(len(headers)):
-        Label(fr_result, text=headers[i]).grid(row=0,column=i)
+        Label(fr_result, text=headers[i]).grid(row=0, column=i)
     for tub in range(len(result)):
         for i in range(len(result[tub])):
-            Label(fr_result, text=result[tub][i]).grid(row=tub+1, column=i)
+            Label(fr_result, text=result[tub][i]).grid(row=tub + 1, column=i)
+    canvas.create_window(0, 0, anchor='nw', window=fr_result)
+    canvas.update_idletasks()
+    canvas.configure(scrollregion=canvas.bbox('all'),
+                     yscrollcommand=scroll_y.set)
+
+    canvas.pack(fill='both', expand=True, side='left')
+    scroll_y.pack(fill='y', side='right')
+    parent.mainloop()
+    # print result on window
+
 
 def parameters():
     for w in fr_param.winfo_children():
@@ -108,7 +122,8 @@ master = Tk()
 master.title("Root finder ")
 
 #  top frame
-fr_top = Frame(master, width=500)
+fr_top = Frame(master)
+fr_param = Frame(master, bd=1)
 l1=Label(fr_top, text="Equation:")
 eq = Entry(fr_top, borderwidth=3, border=5)
 l2=Label(fr_top, text="Max number of Iterations:")
@@ -130,12 +145,7 @@ X2 = StringVar()
 for (val, text) in techniques.items():
     Radiobutton(fr_top, text=text, variable=used_technique, value=val,command=parameters).grid(column=1, sticky=W)
 
-#  parameter frame
-fr_param = Frame(master, bd=1, width=500)
-
 submit = Button(master, text="Get Root", command=extract_input)
-# result of get root
-fr_result = Frame(master)
 
 fr_top.grid(row=0)
 l1.grid(row=0)
@@ -145,5 +155,5 @@ l3.grid(row=2)
 l4.grid(row=3)
 fr_param.grid(row=1)
 submit.grid(row=2)
-fr_result.grid(row=3)
+
 master.mainloop()

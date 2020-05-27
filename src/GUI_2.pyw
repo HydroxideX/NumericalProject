@@ -46,6 +46,7 @@ def handle_input(points, degree, value):
                 y = 0
                 z = y + degree + 1
             if z > x:
+                z = x
                 y = z - degree - 1
 
             if points[mid][0] > value > points[mid - 1][0]:
